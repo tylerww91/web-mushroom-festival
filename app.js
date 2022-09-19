@@ -15,7 +15,7 @@ let message = '';
 let mushrooms = [{ type: 'porcini' }, { type: 'chanterelle' }, { type: 'morel' }];
 
 let friends = [
-    { name: 'Wilbur', satisfied: 3 },
+    { name: 'Wilbur', satisfied: 0 },
     { name: 'Miss Piggy', satisfied: 0 },
     { name: 'Pumbaa', satisfied: 0 },
 ];
@@ -83,6 +83,10 @@ addFriendForm.addEventListener('submit', (e) => {
 sayGoodbyeButton.addEventListener('click', () => {
     const stillHungry = [];
     for (const friend of friends) {
+        if (friend.satisfied < 3) {
+            stillHungry.push(friend);
+        }
+
         // > if the friend is not fully satisfied, push
         // them into the stillHungry array
     }
@@ -122,7 +126,7 @@ function displayFriends() {
             } else {
                 const mushroom = mushrooms.pop();
                 friend.satisfied++;
-                message = `feed ${friend.name} mushroom`;
+                message = `feed ${friend.name} ${mushroom.type}`;
             }
 
             // > handle the three possible outcomes:
