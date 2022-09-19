@@ -15,7 +15,7 @@ let message = '';
 let mushrooms = [{ type: 'porcini' }, { type: 'chanterelle' }, { type: 'morel' }];
 
 let friends = [
-    { name: 'Wilbur', satisfied: 0 },
+    { name: 'Wilbur', satisfied: 3 },
     { name: 'Miss Piggy', satisfied: 0 },
     { name: 'Pumbaa', satisfied: 0 },
 ];
@@ -115,6 +115,9 @@ function displayFriends() {
         const friendEl = renderFriend(friend);
 
         friendEl.addEventListener('click', () => {
+            if (!mushrooms.length) {
+                message = `go hunt for more`;
+
             // > handle the three possible outcomes:
             // 1. No mushrooms, set a message to go hunt for more
             // 2. Friend is already fully satisfied (3), set a message to pick another friend
