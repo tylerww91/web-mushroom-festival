@@ -121,7 +121,7 @@ function displayFriends() {
                 message = `pick another friend`;
             } else {
                 const mushroom = mushrooms.pop();
-                friends.satisfied++;
+                friend.satisfied++;
                 message = `feed ${friend.name} mushroom`;
             }
 
