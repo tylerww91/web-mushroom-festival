@@ -47,6 +47,7 @@ huntMushroomsButton.addEventListener('click', () => {
             type: mushroomType.type,
         };
         // > add the new mushroom to the mushrooms state
+        mushrooms.push(mushroom);
     }
 
     message = foundMessage[found];
@@ -62,21 +63,30 @@ addFriendForm.addEventListener('submit', (e) => {
     // > create a new friend, with a "name" property that
     // is populated from `formData.get('name')` and a
     // "satisfied" property with an initial value of 0
-
+    const friend = {
+        name: formData.get('name'),
+        satisfied: 0,
+    };
     // > add the new friend to the friends array
-
+    friends.push(friend);
     // > set the message state to let the user know
     // they invited a new friend to the festival, include the friend's
     // name in the message
-
+    message = `${friend.name} has joined the hunt!`;
     addFriendForm.reset();
 
+    displayFriends();
+    displayMessage();
     // > call the display functions that need to re-display
 });
 
 sayGoodbyeButton.addEventListener('click', () => {
     const stillHungry = [];
     for (const friend of friends) {
+        if (friend.satisfied < 3) {
+            stillHungry.push(friend);
+        }
+
         // > if the friend is not fully satisfied, push
         // them into the stillHungry array
     }
@@ -93,7 +103,12 @@ function displayMushrooms() {
     mushroomContainer.innerHTML = '';
 
     // > loop the mushrooms
+    // for (let i = 0; i < mushrooms; i++) {}
     // create a mushroom element using the renderMushroom function
+    for (const mushroom of mushrooms) {
+        const mushroomEl = renderMushroom(mushroom);
+        mushroomContainer.append(mushroomEl);
+    }
     // append it to the container
 }
 
@@ -104,6 +119,16 @@ function displayFriends() {
         const friendEl = renderFriend(friend);
 
         friendEl.addEventListener('click', () => {
+            if (!mushrooms.length) {
+                message = `go hunt for more`;
+            } else if (friend.satisfied === 3) {
+                message = `pick another friend`;
+            } else {
+                const mushroom = mushrooms.pop();
+                friend.satisfied++;
+                message = `feed ${friend.name} ${mushroom.type}`;
+            }
+
             // > handle the three possible outcomes:
             // 1. No mushrooms, set a message to go hunt for more
             // 2. Friend is already fully satisfied (3), set a message to pick another friend
